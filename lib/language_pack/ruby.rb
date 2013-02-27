@@ -360,6 +360,8 @@ ERROR
 
   # runs bundler to install the dependencies
   def build_bundler
+    output = run("ruby -e \"puts(require 'yaml')\"")
+    topic "rbx: #{output}"
     log("bundle") do
       bundle_without = ENV["BUNDLE_WITHOUT"] || "development:test"
       bundle_command = "bundle install --without #{bundle_without} --path vendor/bundle --binstubs vendor/bundle/bin"
