@@ -8,6 +8,18 @@ $:.unshift File.expand_path("../../lib", __FILE__)
 # Download and build cairo
 system "bash #{File.expand_path "./compile-cairo.sh", File.dirname(__FILE__)} #{ARGV[0]}"
 
+# set env
+path_base = ARGV[0]
+include = "include"
+%W(#{path_base}/vendor/cairo-1.12.8 #{path_base}/vendor/pixman-0.28.0).each do |path|
+  ENV['CPPPATH']         = "#{path}/#{include}:#{ENV['CPPPATH']}"
+  ENV['CPATH']           = "#{path}/#{include}:#{ENV['CPATH']}"
+  ENV['LIBRARY_PATH']    = "#{path}/lib:#{ENV['LIBRARY_PATH']}"
+  ENV['PKG_CONFIG_PATH'] = "#{path}/lib/pkgconfig:#{ENV['PKG_CONFIG_PATH']}"
+  ENV['CFLAGS']          = "-I#{path}/#{include}:#{ENV['CFLAGS']}"
+end
+
+
 require "language_pack"
 
 if pack = LanguagePack.detect(ARGV[0], ARGV[1])
