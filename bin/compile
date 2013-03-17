@@ -6,7 +6,7 @@ $stdout.sync = true
 $:.unshift File.expand_path("../../lib", __FILE__)
 
 # Download and build cairo
-system "bash #{File.expand_path "./compile-cairo.sh", File.dirname(__FILE__)}"
+system "bash #{File.expand_path "./compile-cairo.sh", File.dirname(__FILE__)} #{ARGV[0]}"
 
 require "language_pack"
 
